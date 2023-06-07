@@ -1,6 +1,8 @@
 const notesRouter = require('express').Router();
 const { readAndAppend, readFromFile } = require('../helpers/fsUtils');
 const fs= require('fs');
+const { v4: uuidv4 } = require('uuid');
+
 
 
 notesRouter.get('/api/notes', (req, res) =>
@@ -9,14 +11,13 @@ notesRouter.get('/api/notes', (req, res) =>
 
 
 notesRouter.post('/api/notes', (req, res) => {
-    const { title, text } = req.body;
+    const { title, text} = req.body;
   
-    // If all the required properties are present
     if (title && text) {
-      // Variable for the object we will save
       const newNotes = {
        title,
        text,
+       id: uuidv4(),
       };
   
       readAndAppend(newNotes, './db/db.json');
