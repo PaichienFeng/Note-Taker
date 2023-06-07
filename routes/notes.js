@@ -29,4 +29,16 @@ notesRouter.post('/api/notes', (req, res) => {
     }
   });
 
+  notesRouter.delete('/api/notes/:id',(req, res)=>{
+    const noteID=req.params.id;
+    let allNotes = JSON.parse(fs.readFileSync('./db/db.json', 'utf8'));
+    for (let i = 0; i < allNotes.length; i++) {
+        if (noteID === allNotes[i].id) {
+          allNotes.splice(i, 1)
+          fs.writeFileSync('./db/db.json', JSON.stringify(allNotes));
+        }
+      }
+    
+  })
+
 module.exports=notesRouter
